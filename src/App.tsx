@@ -159,19 +159,6 @@ export default function App() {
             Descubra a quantidade de água recomendada com base no seu peso corporal utilizando a fórmula de <strong>35 ml por kg</strong>.
           </p>
 
-          <div className="bg-sky-50 border border-sky-200 rounded-xl p-4 text-left flex items-start gap-3.5 shadow-xs">
-            <div className="p-2 bg-sky-600 text-white rounded-lg shrink-0 mt-0.5">
-              <Sparkles className="w-5 h-5" />
-            </div>
-            <div>
-              <h2 className="text-sm font-bold text-sky-950 mb-0.5">
-                Importância da Hidratação para a Saúde
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-700 leading-normal">
-                A ingestão hídrica consistente atua na prevenção primária de sobrecargas renais, desidratação crônica e desequilíbrios metabólicos na rotina diária.
-              </p>
-            </div>
-          </div>
         </section>
 
         {/* Grade da Calculadora e Visualizador */}
@@ -409,7 +396,7 @@ export default function App() {
                   ⏰
                 </div>
                 <h3 className="text-lg font-bold text-slate-900 mb-2">
-                  Use alarmes no telemóvel
+                  Use alarmes no celular
                 </h3>
                 <p className="text-sm text-slate-600 leading-relaxed">
                   Na agitação da rotina diária, é fácil esquecer de beber água. Configurar alarmes ou lembretes a cada 60 a 90 minutos transforma a ingestão de água num reflexo automático e sem esforço.
