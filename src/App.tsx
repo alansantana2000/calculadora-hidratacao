@@ -413,7 +413,7 @@ export default function App() {
               Deixe o seu Feedback
             </h2>
             <p className="text-sm text-slate-600 mt-1 leading-relaxed">
-              Compartilhe a sua experiência e ajude-nos a aprimorar a ferramenta. Os dados são enviados e armazenados com segurança no nosso servidor PostgreSQL.
+              Compartilhe a sua experiência e ajude-nos a aprimorar a ferramenta. A sua opinião é muito importante para continuarmos a melhorar!
             </p>
           </div>
 
@@ -494,14 +494,14 @@ export default function App() {
       <footer className="bg-white border-t border-slate-200 mt-16 py-8 text-center text-xs text-slate-500">
         <div className="max-w-6xl mx-auto px-4 space-y-2">
           <p className="font-bold text-slate-700">
-            Calculadora de Hidratação Diária · Aplicação Full-Stack com PostgreSQL
+            Calculadora de Hidratação Diária · Cuidando da sua saúde todos os dias
           </p>
           <div className="flex items-center justify-center gap-4 pt-2 text-slate-400">
             <span>Saúde e Bem-Estar</span>
             <span>·</span>
-            <span>Node.js & Express</span>
+            <span>Qualidade de Vida</span>
             <span>·</span>
-            <span>PostgreSQL</span>
+            <span>Prevenção</span>
           </div>
         </div>
       </footer>
