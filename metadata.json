@@ -1,0 +1,6 @@
+{
+  "name": "Calculadora de Hidratação Diária",
+  "description": "Calculadora de hidratação diária com cálculo baseado em 35 ml/kg, recomendações de saúde, backend Express com PostgreSQL e dashboard de feedbacks.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
