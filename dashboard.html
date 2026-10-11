@@ -454,8 +454,8 @@
           <button type="button" class="btn btn-outline" onclick="carregarFeedbacks()">
             🔄 Atualizar
           </button>
-          <button type="button" class="btn btn-success" onclick="baixarCSV()">
-            📥 Baixar Relatório (CSV)
+          <button type="button" class="btn btn-success" onclick="window.print()">
+            📥 Baixar Relatório (PDF)
           </button>
         </div>
       </div>
@@ -603,31 +603,6 @@
         console.error('Erro ao carregar feedbacks:', err);
         tbody.innerHTML = `<tr><td colspan="4" style="padding: 2.5rem; text-align: center; color: #dc2626; font-weight: 700;">Erro ao buscar dados: ${err.message}. Verifique o servidor.</td></tr>`;
       }
-    }
-
-    function baixarCSV() {
-      if (!dadosFeedbacks || dadosFeedbacks.length === 0) {
-        alert('Não há dados para exportar no momento.');
-        return;
-      }
-
-      let csv = "\uFEFFNome do Utilizador;Data;Horario;Feedback\n";
-      dadosFeedbacks.forEach(item => {
-        const nome = `"${(item.nome || '').replace(/"/g, '""')}"`;
-        const data = `"${item.data_acesso || item.data || ''}"`;
-        const hora = `"${item.horario_acesso || item.horario || ''}"`;
-        const feedback = `"${(item.feedback || '').replace(/"/g, '""')}"`;
-        csv += `${nome};${data};${hora};${feedback}\n`;
-      });
-
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.setAttribute('href', url);
-      link.setAttribute('download', 'relatorio_feedbacks_postgresql.csv');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
     }
 
     function escapeHtml(texto) {
