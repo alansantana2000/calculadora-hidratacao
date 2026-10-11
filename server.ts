@@ -17,8 +17,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Configuração do pool de conexão com o PostgreSQL
-const poolConfig = process.env.DATABASE_URL
-  ? { connectionString: process.env.DATABASE_URL, ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false }
+const connectionString = process.env.POSTGRES_URL || process.env.DATABASE_URL;
+
+const poolConfig = connectionString
+  ? { connectionString, ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false }
   : {
       host: process.env.SQL_HOST || process.env.PGHOST || 'localhost',
       port: Number(process.env.SQL_PORT || process.env.PGPORT) || 5432,
