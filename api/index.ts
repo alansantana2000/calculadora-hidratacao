@@ -117,14 +117,18 @@ app.get(['/dashboard', '/dashboard.html'], (_req: Request, res: Response) => {
         .stats-card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem 1.75rem; display: flex; align-items: center; gap: 1rem; }
         .stats-number { font-size: 2rem; font-weight: 800; color: #0284c7; }
         .table-container { background: white; border-radius: 10px; border: 2px solid #0f172a; overflow: hidden; }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
+        
+        /* CORREÇÃO DO CORTAR TEXTO AQUI: table-layout fixed e word-wrap */
+        table { width: 100%; border-collapse: collapse; text-align: left; table-layout: fixed; }
         th { background: #0f172a; color: white; padding: 1rem; }
-        td { padding: 1rem; border-bottom: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0;}
-        .td-nome { font-weight: 700; min-width: 180px; }
+        td { padding: 1rem; border-bottom: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; word-wrap: break-word; overflow-wrap: break-word; }
+        .td-nome { font-weight: 700; }
+        
         @media print {
+          @page { size: landscape; margin: 1cm; } /* Força a folha a ficar na horizontal */
           header, .nav-actions, footer, .stats-card, .page-title p { display: none !important; }
           body { background: white !important; }
-          .table-container { border: 2px solid black !important; }
+          .table-container { border: 2px solid black !important; overflow: visible !important; }
           th { background: #0f172a !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
       </style>
