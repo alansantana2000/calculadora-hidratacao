@@ -100,47 +100,36 @@ initDatabase();
 
 /**
  * POST /api/feedback
- * Recebe os dados do front-end e insere no PostgreSQL
  */
 app.post('/api/feedback', async (req: Request, res: Response) => {
   try {
     const { nome, feedback } = req.body;
 
     if (!nome || !feedback) {
-      return res.status(400).json({
-        error: 'Os campos "nome" e "feedback" são obrigatórios.',
-      });
+      return res.status(400).json({ error: 'Os campos "nome" e "feedback" são obrigatórios.' });
     }
 
-    // Captura ou usa a data e horário fornecidos
     const agora = new Date();
-    const data_acesso =
-      req.body.data_acesso ||
-      `${String(agora.getDate()).padStart(2, '0')}/${String(agora.getMonth() + 1).padStart(2, '0')}/${agora.getFullYear()}`;
-    const horario_acesso =
-      req.body.horario_acesso ||
-      `${String(agora.getHours()).padStart(2, '0')}:${String(agora.getMinutes()).padStart(2, '0')}:${String(agora.getSeconds()).padStart(2, '0')}`;
+    const data_acesso = req.body.data_acesso || `${String(agora.getDate()).padStart(2, '0')}/${String(agora.getMonth() + 1).padStart(2, '0')}/${agora.getFullYear()}`;
+    const horario_acesso = req.body.horario_acesso || `${String(agora.getHours()).padStart(2, '0')}:${String(agora.getMinutes()).padStart(2, '0')}:${String(agora.getSeconds()).padStart(2, '0')}`;
 
-    if (isPostgresConnected) {
+    // 🔥 MUDA AQUI: Ignora o isPostgresConnected e força o servidor a esperar pelo Banco de Dados!
+    if (connectionString) {
       const insertQuery = `
         INSERT INTO acessos_feedback (nome, feedback, data_acesso, horario_acesso)
         VALUES ($1, $2, $3, $4)
         RETURNING id, nome, feedback, data_acesso, horario_acesso, created_at;
       `;
-      const result = await pool.query(insertQuery, [
-        nome.trim(),
-        feedback.trim(),
-        data_acesso,
-        horario_acesso,
-      ]);
+      // O pool.query obriga o Vercel a aguardar a conexão ao Neon
+      const result = await pool.query(insertQuery, [nome.trim(), feedback.trim(), data_acesso, horario_acesso]);
 
       return res.status(201).json({
         success: true,
-        message: 'Feedback enviado com sucesso!',
+        message: 'Feedback enviado com sucesso para o PostgreSQL!',
         data: result.rows[0],
       });
     } else {
-      // Fallback em memória
+      // Fallback em memória (só usado se estiver a testar localmente sem banco)
       const novoRegistro: FeedbackRecord = {
         id: memoryFeedbacks.length > 0 ? Math.max(...memoryFeedbacks.map((f) => f.id)) + 1 : 1,
         nome: nome.trim(),
@@ -150,29 +139,21 @@ app.post('/api/feedback', async (req: Request, res: Response) => {
         created_at: new Date().toISOString(),
       };
       memoryFeedbacks.unshift(novoRegistro);
-
-      return res.status(201).json({
-        success: true,
-        message: 'Feedback enviado com sucesso!',
-        data: novoRegistro,
-      });
+      return res.status(201).json({ success: true, message: 'Enviado para a memória', data: novoRegistro });
     }
   } catch (err: any) {
     console.error('Erro ao inserir feedback:', err);
-    return res.status(500).json({
-      error: 'Erro interno no servidor ao gravar feedback.',
-      details: err.message,
-    });
+    return res.status(500).json({ error: 'Erro interno no servidor ao gravar feedback.', details: err.message });
   }
 });
 
 /**
  * GET /api/feedbacks
- * Retorna todos os feedbacks gravados no PostgreSQL
  */
 app.get('/api/feedbacks', async (_req: Request, res: Response) => {
   try {
-    if (isPostgresConnected) {
+    // 🔥 MUDA AQUI: Força a consulta direta ao Banco de Dados
+    if (connectionString) {
       const selectQuery = `
         SELECT id, nome, feedback, data_acesso, horario_acesso, created_at
         FROM acessos_feedback
@@ -185,10 +166,7 @@ app.get('/api/feedbacks', async (_req: Request, res: Response) => {
     }
   } catch (err: any) {
     console.error('Erro ao consultar feedbacks:', err);
-    return res.status(500).json({
-      error: 'Erro ao consultar feedbacks no banco de dados.',
-      details: err.message,
-    });
+    return res.status(500).json({ error: 'Erro ao consultar feedbacks no banco de dados.', details: err.message });
   }
 });
 
