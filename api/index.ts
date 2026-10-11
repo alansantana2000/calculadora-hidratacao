@@ -118,18 +118,20 @@ app.get(['/dashboard', '/dashboard.html'], (_req: Request, res: Response) => {
         .stats-number { font-size: 2rem; font-weight: 800; color: #0284c7; }
         .table-container { background: white; border-radius: 10px; border: 2px solid #0f172a; overflow: hidden; }
         
-        /* CORREÇÃO DO CORTAR TEXTO AQUI: table-layout fixed e word-wrap */
         table { width: 100%; border-collapse: collapse; text-align: left; table-layout: fixed; }
         th { background: #0f172a; color: white; padding: 1rem; }
         td { padding: 1rem; border-bottom: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; word-wrap: break-word; overflow-wrap: break-word; }
         .td-nome { font-weight: 700; }
         
         @media print {
-          @page { size: landscape; margin: 1cm; } /* Força a folha a ficar na horizontal */
+          @page { size: landscape; margin: 1cm; }
           header, .nav-actions, footer, .stats-card, .page-title p { display: none !important; }
-          body { background: white !important; }
-          .table-container { border: 2px solid black !important; overflow: visible !important; }
+          body { background: white !important; padding: 0; margin: 0; }
+          main { max-width: 100% !important; padding: 0 !important; width: 100% !important; }
+          .table-container { border: 2px solid black !important; overflow: visible !important; width: 100% !important; max-width: 100% !important;}
+          table { width: 100% !important; max-width: 100% !important; border-collapse: collapse !important; word-break: break-word !important; }
           th { background: #0f172a !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+          td { white-space: normal !important; overflow: hidden !important; }
         }
       </style>
     </head>
